@@ -13,7 +13,8 @@ module.exports = {
       filename: "./data/dev.sqlite3"
     },
     migrations: {
-      tableName: "knex_migrations"
+      tableName: "knex_migrations_table",
+      directory: "./migrations"
     },
     seeds: {
       directory: "./seeds"

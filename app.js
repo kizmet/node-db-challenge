@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const promiseRouter = require("express-promise-router");
 const knexConfig = require("./knexfile");
 const registerApi = require("./api");
+const projectApi = require("./projects/project-api");
+const resourceApi = require("./resources/resource-api");
 const { Model } = require("objection");
 
 const knex = Knex(knexConfig.development);
@@ -18,7 +20,8 @@ const app = express()
   .use(router)
   .set("json spaces", 2);
 
-registerApi(router);
+projectApi(router);
+resourceApi(router);
 
 app.use((err, req, res, next) => {
   if (err) {

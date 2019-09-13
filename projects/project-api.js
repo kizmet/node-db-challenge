@@ -1,10 +1,8 @@
-///AKA API.JS
-
 "use strict";
 
 const { transaction } = require("objection");
-const Project = require("./projects/Project");
-const Resource = require("./resources/Resource");
+const Project = require("./Project");
+const Resource = require("../resources/Resource");
 
 module.exports = router => {
   //get all projects
