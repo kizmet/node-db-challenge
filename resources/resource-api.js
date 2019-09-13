@@ -1,5 +1,3 @@
-///AKA API.JS
-
 "use strict";
 
 const { transaction } = require("objection");
@@ -49,6 +47,28 @@ module.exports = router => {
     const deleted = await Resource.query().deleteById(req.params.id);
 
     res.send(resource);
+  });
+
+  // Add existing projects as an project for a resource.
+  router.post("/resources/:id/projects", async (req, res) => {
+    const resource = await Resource.query().findById(req.params.id);
+    if (!resource) {
+      throw createStatusCodeError(404);
+    }
+    await resource.$relatedQuery("resProjects").relate(req.body.id);
+    res.send(req.body);
+  });
+
+  router.delete("/resources/:id/projects", async (req, res) => {
+    const resource = await Resource.query().findById(req.params.id);
+    if (!resource) {
+      throw createStatusCodeError(404);
+    }
+    await resource
+      .$relatedQuery("resProjects")
+      .delete()
+      .where("projectId", req.body.id);
+    res.send(req.body);
   });
 };
 

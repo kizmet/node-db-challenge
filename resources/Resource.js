@@ -11,20 +11,16 @@ class Resource extends Model {
   static get relationMappings() {
     const Project = require("../projects/Project");
     return {
-      actors: {
+      resProjects: {
         relation: Model.ManyToManyRelation,
-        // The related model. This can be either a Model subclass constructor or an
-        // absolute file path to a module that exports one. We use the file path version
-        // here to prevent require loops.
         modelClass: Project,
         join: {
           from: "resources.id",
-          // ManyToMany relation needs the `through` object to describe the join table.
           through: {
             from: "projects_resources.resourceId",
             to: "projects_resources.projectId"
           },
-          to: "resources.id"
+          to: "projects.id"
         }
       }
     };

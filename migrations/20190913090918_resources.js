@@ -15,6 +15,7 @@ exports.up = knex => {
 				.unsigned()
 				.references("id")
 				.inTable("projects")
+				.onUpdate("CASCADE")
 				.onDelete("CASCADE")
 				.index();
 			table
@@ -22,6 +23,7 @@ exports.up = knex => {
 				.unsigned()
 				.references("id")
 				.inTable("resources")
+				.onUpdate("CASCADE")
 				.onDelete("CASCADE")
 				.index();
 		});

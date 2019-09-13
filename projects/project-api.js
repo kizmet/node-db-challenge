@@ -94,19 +94,32 @@ module.exports = router => {
     res.send(tasks);
   });
 
-  router.post("/projects/:id/resources", async (req, res) => {
-    const movie = await transaction(Project.knex(), async trx => {
-      const project = await Project.query(trx).findById(req.params.id);
+  router.get("/projects/:id/resources", async (req, res) => {
+    const project = await Project.query().findById(req.params.id);
 
-      if (!project) {
-        throw createStatusCodeError(404);
-      }
+    if (!project) {
+      throw createStatusCodeError(404);
+    }
 
-      return await project.$relatedQuery("resources", trx).insert(req.body);
-    });
-
-    res.send(movie);
+    const resources = await project
+      .$relatedQuery("resources")
+      .where("projectId", req.params.id);
+    res.send(resources);
   });
+
+  //   router.post("/projects/:id/resources", async (req, res) => {
+  //     const resource = await transaction(Project.knex(), async trx => {
+  //       const project = await Project.query(trx).findById(req.params.id);
+  //
+  //       if (!project) {
+  //         throw createStatusCodeError(404);
+  //       }
+  //
+  //       return await project.$relatedQuery("resources", trx).insert(req.body);
+  //     });
+  //
+  //     res.send(resource);
+  //   });
 
   // Patch a project and upsert its relations.
   router.patch("/projects/:id/upsert", async (req, res) => {
